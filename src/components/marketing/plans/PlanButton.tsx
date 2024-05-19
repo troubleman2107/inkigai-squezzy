@@ -22,7 +22,9 @@ export default function PlanButton({ plan, subscription }) {
       toast.error(checkout.message);
     } else {
       console.log(checkout["url"]);
-      LemonSqueezy.Url.Open(checkout["url"]);
+      if (LemonSqueezy) {
+        LemonSqueezy.Url.Open(checkout["url"]);
+      }
     }
 
     setIsMutating(false);

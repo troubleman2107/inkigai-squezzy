@@ -65,18 +65,13 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      required
-                      placeholder="name@example.com"
-                      {...field}
-                      disabled
-                    />
+                    <Input required placeholder="name@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="capitalize" disabled>
+            <Button type="submit" className="capitalize">
               {secondaryMessage} with Email
             </Button>
           </form>
@@ -91,12 +86,19 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
             </span>
           </div>
         </div>
-        <Button
+        {/* <Button
           variant="secondary"
           onClick={() => signIn("github", { callbackUrl: "/" })}
           className="capitalize bg-indigo-700 hover:bg-indigo-800"
         >
           <GithubIcon className="h-4 mr-1" /> {secondaryMessage} with Github
+        </Button> */}
+        <Button
+          variant="secondary"
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+          className="capitalize bg-indigo-700 hover:bg-indigo-800"
+        >
+          {secondaryMessage} with Google
         </Button>
         <p className="px-8 text-xs text-center text-muted-foreground">
           By clicking continue, you agree to our{" "}

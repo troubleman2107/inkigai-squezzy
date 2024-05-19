@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions, User } from "next-auth";
-import GithubProvider from 'next-auth/providers/github';
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 import prisma from "@/lib/prisma";
 
 interface CustomUser extends User {
@@ -13,7 +14,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   debug: true,
   pages: {
-    signIn: '/signin',
+    signIn: "/signin",
   },
   session: {
     strategy: "jwt",
@@ -22,7 +23,11 @@ export const authOptions: NextAuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
-    })
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
   ],
   callbacks: {
     async jwt({ token, trigger, session, account, user }) {
@@ -37,16 +42,16 @@ export const authOptions: NextAuthOptions = {
         }
       }
       // Triggers
-      if (trigger === 'update' && session?.name) {
+      if (trigger === "update" && session?.name) {
         token.name = session.name;
       }
-      if (trigger === 'update' && session?.jobTitle) {
+      if (trigger === "update" && session?.jobTitle) {
         token.jobTitle = session.jobTitle;
       }
       return token;
     },
     // Custom Session
-    async session({session, token}) {
+    async session({ session, token }) {
       if (token?.userId) {
         (session.user as CustomUser).id = token.userId as string;
       }
@@ -63,9 +68,10 @@ export const authOptions: NextAuthOptions = {
           },
         });
         // Add subscriptions to the session
-        (session.user as CustomUser).subscriptions = userWithSubscriptions?.subscriptions;
+        (session.user as CustomUser).subscriptions =
+          userWithSubscriptions?.subscriptions;
       }
       return session;
     },
   },
-}
+};

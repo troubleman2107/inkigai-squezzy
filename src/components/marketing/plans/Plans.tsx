@@ -18,6 +18,7 @@ export const Plans = async () => {
   }
 
   const products = await ls.getProducts();
+
   const subscription = null;
 
   const productsWithVariantIds = await Promise.all(
@@ -33,9 +34,8 @@ export const Plans = async () => {
     })
   );
 
-  // console.log(user);
   const userSubscriptions = user && user.user ? user.user.subscriptions : null;
-  // console.log(userSubscriptions);
+  console.log("🚀 ~ Plans ~ userSubscriptions:", userSubscriptions);
 
   return (
     <>
@@ -65,7 +65,7 @@ export const Plans = async () => {
                   <li>Unlimited Public Projects</li>
                   <li>Community Access</li>
                 </ul>
-                {userSubscriptions ? (
+                {userSubscriptions && userSubscriptions.length ? (
                   <Button>Manage Subscription</Button>
                 ) : (
                   <PlanButton plan={product} subscription={subscription} />
