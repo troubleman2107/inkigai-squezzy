@@ -35,7 +35,6 @@ export const Plans = async () => {
   );
 
   const userSubscriptions = user && user.user ? user.user.subscriptions : null;
-  console.log("🚀 ~ Plans ~ userSubscriptions:", userSubscriptions);
 
   return (
     <>

@@ -1,11 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function PlanButton({ plan, subscription }) {
   const [isMutating, setIsMutating] = useState(false); // For loading
+  const router = useRouter();
 
   async function createCheckout(e, variantId) {
     setIsMutating(true);
@@ -22,8 +24,12 @@ export default function PlanButton({ plan, subscription }) {
       toast.error(checkout.message);
     } else {
       console.log(checkout["url"]);
-      if (LemonSqueezy) {
+      try {
         LemonSqueezy.Url.Open(checkout["url"]);
+      } catch (error) {
+        if (error) {
+          router.push(checkout["url"]);
+        }
       }
     }
 
