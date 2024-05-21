@@ -25,7 +25,7 @@ model Subscription {
   userId             String    @unique
   isUsageBased       Boolean   @default(false)
   subscriptionItemId Int?      @unique
-  user               User      @relation(fields: [userId], references: [id])
+  user               User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   customerId         Int?
 
   @@index([lemonSqueezyId])

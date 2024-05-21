@@ -35,7 +35,7 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    signIn("resend", { email: values.email, callbackUrl: "/" });
+    signIn("email", { email: values.email, callbackUrl: "/" });
   }
 
   // Messaging

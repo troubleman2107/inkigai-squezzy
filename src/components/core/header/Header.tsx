@@ -23,6 +23,7 @@ import { getInitials } from "@/lib/utils/initials";
 
 export default async function Header() {
   const session = await getServerSession(authOptions);
+  console.log("🚀 ~ Header ~ session:", session);
 
   return (
     <header className="fixed top-0 z-40 flex w-full transition-all border-b border-border/15 backdrop-blur-xl bg-background/60">
@@ -70,7 +71,10 @@ export default async function Header() {
                 <Avatar className="w-8 h-8">
                   <AvatarImage src={session?.user?.image as string} />
                   <AvatarFallback className="uppercase">
-                    {getInitials(session?.user?.name as string)}
+                    {getInitials(
+                      (session?.user?.name as string) ??
+                        (session?.user?.email as string)
+                    )}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>

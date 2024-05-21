@@ -1,20 +1,20 @@
-import prisma from '.'
+import prisma from ".";
 
 export async function getUsers() {
   try {
-    const users = await prisma.user.findMany()
-    return { users }
+    const users = await prisma.user.findMany();
+    return { users };
   } catch (error) {
-    return { error }
+    return { error };
   }
 }
 
 export async function createUser(user: any) {
   try {
-    const userFromDB = await prisma.user.create({ data: user })
-    return { user: userFromDB }
+    const userFromDB = await prisma.user.create({ data: user });
+    return { user: userFromDB };
   } catch (error) {
-    return { error } 
+    return { error };
   }
 }
 
@@ -24,9 +24,9 @@ export async function updateUser(email: any, data: any) {
       where: { email },
       data: data,
     });
-    return { data }
+    return { data };
   } catch (error) {
-    return { error }
+    return { error };
   }
 }
 
@@ -36,7 +36,7 @@ export async function deleteUser(email: any) {
       where: { email },
     });
   } catch (error) {
-    return { error }
+    return { error };
   }
 }
 
@@ -47,11 +47,11 @@ export async function getUserById(id: any) {
       include: {
         subscriptions: true,
         accounts: true,
-      }
-    })
-    return { user}
+      },
+    });
+    return { user };
   } catch (error) {
-    return { error }
+    return { error };
   }
 }
 

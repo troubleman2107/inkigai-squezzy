@@ -23,7 +23,6 @@ export default function PlanButton({ plan, subscription }) {
     if (checkout.error) {
       toast.error(checkout.message);
     } else {
-      console.log(checkout["url"]);
       try {
         LemonSqueezy.Url.Open(checkout["url"]);
       } catch (error) {

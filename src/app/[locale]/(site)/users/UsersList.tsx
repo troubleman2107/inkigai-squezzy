@@ -53,7 +53,7 @@ export async function UsersList() {
                   <Avatar>
                     <AvatarImage src={user.image as string} />
                     <AvatarFallback className="uppercase">
-                      {getInitials(user.name)}
+                      {/* {getInitials(user.name ?? user.email)} */}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex flex-col w-full overflow-hidden">
