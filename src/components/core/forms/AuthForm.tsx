@@ -14,7 +14,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { GithubIcon } from "lucide-react";
+import { GithubIcon, Loader } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
 const formSchema = z.object({
   email: z.string().email(),
 });
@@ -24,6 +26,8 @@ interface AuthFormProps {
 }
 
 export const AuthForm = ({ variant }: AuthFormProps) => {
+  const [isMutating, setIsMutating] = useState(false);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,9 +37,24 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    signIn("email", { email: values.email, callbackUrl: "/" });
+  async function onSubmit(
+    values: z.infer<typeof formSchema>,
+    e: React.FormEvent<HTMLFormElement>
+  ) {
+    e.preventDefault();
+    setIsMutating(true);
+
+    const result = await signIn("email", {
+      email: values.email,
+      callbackUrl: "/en/dashboard",
+      redirect: false,
+    });
+    if (result.ok) {
+      toast.success("Check your email for the sign in link.");
+    } else {
+      toast.error("Something went wrong. Please try again.");
+    }
+    setIsMutating(false);
   }
 
   // Messaging
@@ -71,8 +90,15 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="capitalize">
-              {secondaryMessage} with Email
+            <Button type="submit" className="capitalize gap-1">
+              {isMutating ? (
+                <>
+                  <Loader size={16} className="animate animate-spin" />
+                  <span className="animate-pulse">Processing</span>
+                </>
+              ) : (
+                `${secondaryMessage} with Email`
+              )}
             </Button>
           </form>
         </Form>
@@ -95,7 +121,7 @@ export const AuthForm = ({ variant }: AuthFormProps) => {
         </Button> */}
         <Button
           variant="secondary"
-          onClick={() => signIn("google", { callbackUrl: "/" })}
+          onClick={() => signIn("google", { callbackUrl: "/en/dashboard" })}
           className="capitalize bg-indigo-700 hover:bg-indigo-800"
         >
           {secondaryMessage} with Google

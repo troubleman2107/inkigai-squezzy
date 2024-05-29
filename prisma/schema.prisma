@@ -86,6 +86,7 @@ model User {
   image         String?
   imageUrl      String?
   jobTitle      String?
+  token         String?
   accounts      Account[]
   sessions      Session[]
   subscriptions Subscription[]
